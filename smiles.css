@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Abel&family=Salsa&display=swap');
+* {
+  color: goldenrod;
+  background-color: black;
+  margin: 0;
+  padding: 0;
+  font-family: 'Abel', sans-serif;
+}
+
+h1{
+    margin-left: 10px;
+}
+
+.birthdaay-fireworks-div {
+  display: flex;
+  align-items: center;
+}
+
+.happy-birthday {
+  position: absolute;
+  color: goldenrod;
+  background: none;
+}
+
+button {
+    background-color: white;
+    color: goldenrod;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: large;
+    /* margin-right: 0px; */
+    float: right;
+    font-family: 'Salsa', cursive;
+  }

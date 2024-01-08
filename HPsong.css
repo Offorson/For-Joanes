@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Abel&family=Salsa&display=swap');
+* {
+  padding: 0;
+  margin: 0;
+  background-color: black;
+}
+.blue-video-div {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.blue-video-div video {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  /* z-index: -1; */
+}
+
+.carpic-div {
+  width: 100;
+}
+
+button {
+  background-color: white;
+  color: goldenrod;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: large;
+  /* margin-right: 0px; */
+  font-family: 'Salsa', cursive;
+}
+
+.gift-btn{
+    float: right;
+}

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>For You</title>
+    <link rel="icon" href="tab image.jpg" type="Image/x-icon" />
+    <link rel="stylesheet" href="gift.css" />
+  </head>
+  <body>
+    <section class="showcase">
+      <!-- <video src="header video.mp4" muted loop playsinline autoplay></video> -->
+      <div class="animated-writing-container">
+        <h1><span id="auto-text"></span></h1>
+      </div>
+    </section>
+    <!-- <div> -->
+    <!-- <iframe
+      allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
+      frameborder="0"
+      height="175"
+      style="
+        width: 100%;
+        max-width: 660px;
+        overflow: hidden;
+        border-radius: 10px;
+      "
+      sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
+      src="https://embed.music.apple.com/us/album/feel/1675379314?i=1675379321"
+    ></iframe> -->
+
+    <iframe
+      style="border-radius: 12px"
+      src="https://open.spotify.com/embed/track/1mk8ZC9OeTZMr8Wy31LqRj?utm_source=generator"
+      width="100%"
+      height="352"
+      frameborder="0"
+      allowfullscreen=""
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy"
+    ></iframe>
+    <!-- </div> -->
+
+    <div class="blue-video-div">
+      <video src="The face.mp4" controls playsinline loop></video>
+    </div>
+    <div class="blue-video-div">
+      <video src="F my show vid.mp4" controls playsinline loop></video>
+    </div>
+    <div class="blue-video-div">
+      <video src="my baby video.mp4" controls playsinline loop></video>
+    </div>
+    <div class="calm-video-div">
+      <video src="calm video.mp4" controls playsinline loop></video>
+    </div>
+
+    <footer class="footer">
+      <div class="animated-writing-container">
+        <h1><span id="footer-auto-text"></span></h1>
+      </div>
+      <canvas id="birthday"></canvas>
+      <div>
+        <a href="HPsong.html"><button>Back</button></a>
+        <a href="smiles.html"><button class="next-btn">Next</button></a>
+      </div>
+    </footer>
+
+    <!-- //////////////////////////// -->
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script>
+      var typed = new Typed("#auto-text", {
+        strings: [
+          "",
+          "Hello",
+          "It's me again",
+          "The one he sent to pass all the messages",
+          "Well it's a good thing I was the second hardest thing for him to figure out",
+          "Well it's a good thing I was the second hardest thing for him to figure out 😂",
+          "He said",
+          "He said he ran out of video for this part",
+          `And looking for gift "That's not money" was not easy`,
+          "He said you should ask him for link to a telegram channel where you can download clear movies",
+          "And also a website where you can stream all the movies free",
+          "He wanted to trick you to do so with Code",
+          "But I don't know why he did not",
+          `I guess you people are animals of free will`,
+          "If you want to see his face (because for some reasons he sees that as a gift)",
+          "If you want to see his face you'll scroll down. Not yet",
+          "There is a preview of one davido song",
+          "The video he uses to calm down",
+          "Every video here is downloadable",
+          "Woo",
+          "That one no really concern me na una two mata",
+          "He also said that why did not ask him for help when your Chat GPT was not working",
+          "He also said that why did not ask him for help when your Chat GPT was not working. (►__◄) 😡",
+          "Errrrmmmmm What else did he even say",
+          "What else",
+          "What else, What else",
+          "Please don't tell him I forgot",
+          "Okay bye",
+          "",
+        ],
+        typeSpeed: 50,
+        backSpeed: 50,
+        looped: true,
+        smartBackspace: true,
+      });
+
+      /////////////////////////////////////////////
+      // helper functions
+      const PI2 = Math.PI * 2;
+      const random = (min, max) => (Math.random() * (max - min + 1) + min) | 0;
+      const timestamp = (_) => new Date().getTime();
+
+      // container
+      class Birthday {
+        constructor() {
+          this.resize();
+
+          // create a lovely place to store the firework
+          this.fireworks = [];
+          this.counter = 0;
+        }
+
+        resize() {
+          this.width = canvas.width = window.innerWidth;
+          let center = (this.width / 2) | 0;
+          this.spawnA = (center - center / 4) | 0;
+          this.spawnB = (center + center / 4) | 0;
+
+          this.height = canvas.height = window.innerHeight;
+          this.spawnC = this.height * 0.1;
+          this.spawnD = this.height * 0.5;
+        }
+
+        onClick(evt) {
+          let x = evt.clientX || (evt.touches && evt.touches[0].pageX);
+          let y = evt.clientY || (evt.touches && evt.touches[0].pageY);
+
+          let count = random(3, 5);
+          for (let i = 0; i < count; i++)
+            this.fireworks.push(
+              new Firework(
+                random(this.spawnA, this.spawnB),
+                this.height,
+                x,
+                y,
+                random(0, 260),
+                random(30, 110)
+              )
+            );
+
+          this.counter = -1;
+        }
+
+        update(delta) {
+          ctx.globalCompositeOperation = "hard-light";
+          ctx.fillStyle = `rgba(20,20,20,${7 * delta})`;
+          ctx.fillRect(0, 0, this.width, this.height);
+
+          ctx.globalCompositeOperation = "lighter";
+          for (let firework of this.fireworks) firework.update(delta);
+
+          // if enough time passed... create new new firework
+          this.counter += delta * 3; // each second
+          if (this.counter >= 1) {
+            this.fireworks.push(
+              new Firework(
+                random(this.spawnA, this.spawnB),
+                this.height,
+                random(0, this.width),
+                random(this.spawnC, this.spawnD),
+                random(0, 360),
+                random(30, 110)
+              )
+            );
+            this.counter = 0;
+          }
+
+          // remove the dead fireworks
+          if (this.fireworks.length > 1000)
+            this.fireworks = this.fireworks.filter(
+              (firework) => !firework.dead
+            );
+        }
+      }
+
+      class Firework {
+        constructor(x, y, targetX, targetY, shade, offsprings) {
+          this.dead = false;
+          this.offsprings = offsprings;
+
+          this.x = x;
+          this.y = y;
+          this.targetX = targetX;
+          this.targetY = targetY;
+
+          this.shade = shade;
+          this.history = [];
+        }
+        update(delta) {
+          if (this.dead) return;
+
+          let xDiff = this.targetX - this.x;
+          let yDiff = this.targetY - this.y;
+          if (Math.abs(xDiff) > 3 || Math.abs(yDiff) > 3) {
+            // is still moving
+            this.x += xDiff * 2 * delta;
+            this.y += yDiff * 2 * delta;
+
+            this.history.push({
+              x: this.x,
+              y: this.y,
+            });
+
+            if (this.history.length > 20) this.history.shift();
+          } else {
+            if (this.offsprings && !this.madeChilds) {
+              let babies = this.offsprings / 2;
+              for (let i = 0; i < babies; i++) {
+                let targetX =
+                  (this.x + this.offsprings * Math.cos((PI2 * i) / babies)) | 0;
+                let targetY =
+                  (this.y + this.offsprings * Math.sin((PI2 * i) / babies)) | 0;
+
+                birthday.fireworks.push(
+                  new Firework(this.x, this.y, targetX, targetY, this.shade, 0)
+                );
+              }
+            }
+            this.madeChilds = true;
+            this.history.shift();
+          }
+
+          if (this.history.length === 0) this.dead = true;
+          else if (this.offsprings) {
+            for (let i = 0; this.history.length > i; i++) {
+              let point = this.history[i];
+              ctx.beginPath();
+              ctx.fillStyle = "hsl(" + this.shade + ",100%," + i + "%)";
+              ctx.arc(point.x, point.y, 1, 0, PI2, false);
+              ctx.fill();
+            }
+          } else {
+            ctx.beginPath();
+            ctx.fillStyle = "hsl(" + this.shade + ",100%,50%)";
+            ctx.arc(this.x, this.y, 1, 0, PI2, false);
+            ctx.fill();
+          }
+        }
+      }
+
+      let canvas = document.getElementById("birthday");
+      let ctx = canvas.getContext("2d");
+
+      let then = timestamp();
+
+      let birthday = new Birthday();
+      window.onresize = () => birthday.resize();
+      document.onclick = (evt) => birthday.onClick(evt);
+      document.ontouchstart = (evt) => birthday.onClick(evt);
+      (function loop() {
+        requestAnimationFrame(loop);
+
+        let now = timestamp();
+        let delta = now - then;
+
+        then = now;
+        birthday.update(delta / 1000);
+      })();
+
+      ////////////////////////////////////////////////////////////
+    </script>
+  </body>
+</html>

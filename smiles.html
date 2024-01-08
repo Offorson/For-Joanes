@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enjoy your day</title>
+    <link rel="icon" href="tab image.jpg" type="Image/x-icon" />
+    <link rel="stylesheet" href="smiles.css" />
+  </head>
+  <body>
+    <div class="birthdaay-fireworks-div">
+      <!-- <div class="animated-writing-container"> -->
+      <h1 class="happy-birthday"><span id="auto-text"></span></h1>
+
+      <canvas id="birthday"></canvas>
+    </div>
+    <div>
+       <a href="https://wa.link/td2bls"> <button>text him</button></a>
+    </div>
+    <embed
+      src="Young_Thug_-_Me_Or_Us.mp3"
+      loop="true"
+      autostart="true"
+      width="2"
+      height="0"
+    />
+    <!-- //////////////////////////////////////////////////// -->
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script>
+      var typed = new Typed("#auto-text", {
+        strings: [
+          "",
+          "",
+          "Hey",
+          "Hey, it's me again",
+          `Hey, it's me again, "the messenger"`,
+          "",
+          "We have come to the end of the road",
+          "We have come to the end of the road. ◑﹏◐ 🥺",
+          "Hope you enjoyed the ride",
+          "He found out I have STM",
+          "He found out I have STM, (normal Short time memory)",
+          "So he did not send me anything",
+          "So he did not send me anything. But I over heard him saying somethings sha",
+          "Want me to tell you?",
+          "Want me to tell you?. nod your head if you want me to tell you",
+          "",
+          "You dey nod",
+          "You dey nod 😂 you like amebo",
+          `He knew the davido song 'FEEL' might not play but he left it still`,
+          "He knew the davido song 'FEEL' might not play but he left it still. I don't know why but maybe you should listen to the song",
+          "He also said that this is the most creative thing he's ever done",
+          "But he had to",
+          "But he had to. And also themed it gold Beacause the person he did it for is special to him",
+          "It might be you, it might as well be me who knows? he did not mention the person 😒",
+          "He had a better design in mind but he found out it could only be archieved with VUE or THREE JS, he does not know how to write those codes yet",
+          "So he had to work with what he had",
+          "",
+          "Happy Birthday once again",
+          "Happy Birthday once again. And make sure you eat the bitter leaf soup",
+          "Enjoy your day",
+          "",
+          "Designed and developed by Oforkile Jonah. 👇",
+        ],
+        typeSpeed: 92,
+        backSpeed: 10,
+        looped: true,
+        smartBackspace: true,
+      });
+
+      /////////////////////////////////////////////
+      // helper functions
+      const PI2 = Math.PI * 2;
+      const random = (min, max) => (Math.random() * (max - min + 1) + min) | 0;
+      const timestamp = (_) => new Date().getTime();
+
+      // container
+      class Birthday {
+        constructor() {
+          this.resize();
+
+          // create a lovely place to store the firework
+          this.fireworks = [];
+          this.counter = 0;
+        }
+
+        resize() {
+          this.width = canvas.width = window.innerWidth;
+          let center = (this.width / 2) | 0;
+          this.spawnA = (center - center / 4) | 0;
+          this.spawnB = (center + center / 4) | 0;
+
+          this.height = canvas.height = window.innerHeight;
+          this.spawnC = this.height * 0.1;
+          this.spawnD = this.height * 0.5;
+        }
+
+        onClick(evt) {
+          let x = evt.clientX || (evt.touches && evt.touches[0].pageX);
+          let y = evt.clientY || (evt.touches && evt.touches[0].pageY);
+
+          let count = random(3, 5);
+          for (let i = 0; i < count; i++)
+            this.fireworks.push(
+              new Firework(
+                random(this.spawnA, this.spawnB),
+                this.height,
+                x,
+                y,
+                random(0, 260),
+                random(30, 110)
+              )
+            );
+
+          this.counter = -1;
+        }
+
+        update(delta) {
+          ctx.globalCompositeOperation = "hard-light";
+          ctx.fillStyle = `rgba(20,20,20,${7 * delta})`;
+          ctx.fillRect(0, 0, this.width, this.height);
+
+          ctx.globalCompositeOperation = "lighter";
+          for (let firework of this.fireworks) firework.update(delta);
+
+          // if enough time passed... create new new firework
+          this.counter += delta * 3; // each second
+          if (this.counter >= 1) {
+            this.fireworks.push(
+              new Firework(
+                random(this.spawnA, this.spawnB),
+                this.height,
+                random(0, this.width),
+                random(this.spawnC, this.spawnD),
+                random(0, 360),
+                random(30, 110)
+              )
+            );
+            this.counter = 0;
+          }
+
+          // remove the dead fireworks
+          if (this.fireworks.length > 1000)
+            this.fireworks = this.fireworks.filter(
+              (firework) => !firework.dead
+            );
+        }
+      }
+
+      class Firework {
+        constructor(x, y, targetX, targetY, shade, offsprings) {
+          this.dead = false;
+          this.offsprings = offsprings;
+
+          this.x = x;
+          this.y = y;
+          this.targetX = targetX;
+          this.targetY = targetY;
+
+          this.shade = shade;
+          this.history = [];
+        }
+        update(delta) {
+          if (this.dead) return;
+
+          let xDiff = this.targetX - this.x;
+          let yDiff = this.targetY - this.y;
+          if (Math.abs(xDiff) > 3 || Math.abs(yDiff) > 3) {
+            // is still moving
+            this.x += xDiff * 2 * delta;
+            this.y += yDiff * 2 * delta;
+
+            this.history.push({
+              x: this.x,
+              y: this.y,
+            });
+
+            if (this.history.length > 20) this.history.shift();
+          } else {
+            if (this.offsprings && !this.madeChilds) {
+              let babies = this.offsprings / 2;
+              for (let i = 0; i < babies; i++) {
+                let targetX =
+                  (this.x + this.offsprings * Math.cos((PI2 * i) / babies)) | 0;
+                let targetY =
+                  (this.y + this.offsprings * Math.sin((PI2 * i) / babies)) | 0;
+
+                birthday.fireworks.push(
+                  new Firework(this.x, this.y, targetX, targetY, this.shade, 0)
+                );
+              }
+            }
+            this.madeChilds = true;
+            this.history.shift();
+          }
+
+          if (this.history.length === 0) this.dead = true;
+          else if (this.offsprings) {
+            for (let i = 0; this.history.length > i; i++) {
+              let point = this.history[i];
+              ctx.beginPath();
+              ctx.fillStyle = "hsl(" + this.shade + ",100%," + i + "%)";
+              ctx.arc(point.x, point.y, 1, 0, PI2, false);
+              ctx.fill();
+            }
+          } else {
+            ctx.beginPath();
+            ctx.fillStyle = "hsl(" + this.shade + ",100%,50%)";
+            ctx.arc(this.x, this.y, 1, 0, PI2, false);
+            ctx.fill();
+          }
+        }
+      }
+
+      let canvas = document.getElementById("birthday");
+      let ctx = canvas.getContext("2d");
+
+      let then = timestamp();
+
+      let birthday = new Birthday();
+      window.onresize = () => birthday.resize();
+      document.onclick = (evt) => birthday.onClick(evt);
+      document.ontouchstart = (evt) => birthday.onClick(evt);
+      (function loop() {
+        requestAnimationFrame(loop);
+
+        let now = timestamp();
+        let delta = now - then;
+
+        then = now;
+        birthday.update(delta / 1000);
+      })();
+    </script>
+  </body>
+</html>
